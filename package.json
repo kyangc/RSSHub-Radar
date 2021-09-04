@@ -5,7 +5,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack -w --mode=production --progress --color",
-    "build": "webpack --mode=production --progress --color",
+    "build": "rm -r dist/ releases/; webpack --mode=production --progress --color; mkdir -p releases; zip -r ./releases/release.zip ./dist",
     "release": "npm run build && zip -r release/radar.zip dist",
     "format": "eslint \"**/*.js\" --fix && prettier \"**/*.{js,scss,less}\" --write",
     "format:staged": "eslint \"**/*.js\" --fix && pretty-quick --staged --verbose --pattern \"**/*.{js,scss,less}\"",
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DIYgod/RSSHub-Radar.git"
+    "url": "git+https://github.com/kyangc/RSSHub-Radar.git"
   },
   "keywords": [
     "rsshub",

@@ -1,4 +1,4 @@
-import { handleRSS, removeRSS, addPageRSS, getAllRSS } from './utils';
+import { addPageRSS, getAllRSS, handleRSS, removeRSS } from './utils';
 import { getConfig, saveConfig } from '../common/config';
 
 chrome.tabs.onActivated.addListener((tab) => {

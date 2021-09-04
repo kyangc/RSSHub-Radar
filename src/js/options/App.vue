@@ -1,35 +1,38 @@
 <template>
-  <div id="app">
-    <el-container class="container">
-        <el-aside width="200px">
-            <el-menu
-                class="menu"
-                :default-active="this.$route.path"
-                @select="handleSelect">
-                <el-header
-                    class="header"
-                    height="80px">RSSHub Radar</el-header>
-                <el-menu-item index="/setting">
-                    <i class="el-icon-setting"></i>
-                    <span slot="title">设置</span>
-                </el-menu-item>
-                <el-menu-item index="/list">
-                    <i class="el-icon-magic-stick"></i>
-                    <span slot="title">规则列表</span>
-                </el-menu-item>
-                <el-menu-item index="/about">
-                    <i class="el-icon-coordinate"></i>
-                    <span slot="title">关于</span>
-                </el-menu-item>
-                <el-footer class="footer">版本 v{{ version }}<br>Made with <i style="color:#d43f57">♥</i> by <a target="_blank" href="https://diygod.me">DIYgod</a></el-footer>
-            </el-menu>
-        </el-aside>
-        <el-container class="sub-container">
-            <!-- <el-main><router-view></router-view></el-main> -->
-            <router-view></router-view>
+    <div id='app'>
+        <el-container class='container'>
+            <el-aside width='200px'>
+                <el-menu
+                    :default-active='this.$route.path'
+                    class='menu'
+                    @select='handleSelect'>
+                    <el-header
+                        class='header'
+                        height='80px'>RSSHub Radar
+                    </el-header>
+                    <el-menu-item index='/setting'>
+                        <i class='el-icon-setting'></i>
+                        <span slot='title'>设置</span>
+                    </el-menu-item>
+                    <el-menu-item index='/list'>
+                        <i class='el-icon-magic-stick'></i>
+                        <span slot='title'>规则列表</span>
+                    </el-menu-item>
+                    <el-menu-item index='/about'>
+                        <i class='el-icon-coordinate'></i>
+                        <span slot='title'>关于</span>
+                    </el-menu-item>
+                    <el-footer class='footer'>版本 v{{ version }}<br>Made with <i
+                        style='color:#d43f57'>♥</i> by <a href='https://diygod.me' target='_blank'>DIYgod</a>
+                    </el-footer>
+                </el-menu>
+            </el-aside>
+            <el-container class='sub-container'>
+                <!-- <el-main><router-view></router-view></el-main> -->
+                <router-view></router-view>
+            </el-container>
         </el-container>
-    </el-container>
-  </div>
+    </div>
 </template>
 
 <script>
@@ -42,11 +45,11 @@ export default {
         handleSelect(key, keyPath) {
             this.$router.push(key);
         },
-    }
-}
+    },
+};
 </script>
 
-<style lang="less">
+<style lang='less'>
 @color-primary: #f5712c;
 
 body {
@@ -55,7 +58,7 @@ body {
 }
 
 #app {
-    font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+    font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
     height: 100%;
 }
 
@@ -74,6 +77,7 @@ body {
         &:focus {
             background-color: transparent;
         }
+
         &:hover {
             background-color: #fef1ea;
         }

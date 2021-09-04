@@ -1,4 +1,5 @@
 import RSSParser from 'rss-parser';
+
 const rssParser = new RSSParser();
 
 let pageRSS = null;

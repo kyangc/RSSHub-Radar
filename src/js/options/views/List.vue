@@ -1,33 +1,37 @@
 <template>
-    <div class="list">
+    <div class='list'>
         <el-main>
-            <div class="title">规则列表</div>
-            <div class="tip">
-                <p>更多规则支持中，快来<a target="_blank" href="https://docs.rsshub.app/joinus/">参与我们</a>吧！</p>
+            <div class='title'>规则列表</div>
+            <div class='tip'>
+                <p>更多规则支持中，快来<a href='https://docs.rsshub.app/joinus/' target='_blank'>参与我们</a>吧！
+                </p>
                 <p>{{ time }}前更新</p>
             </div>
-            <div class="content" v-loading="loading">
+            <div v-loading='loading' class='content'>
                 <el-collapse accordion>
-                    <el-collapse-item v-for="(rule, domain) in rules" :key="domain" :title="rule._name + ' - ' + domain">
-                        <div v-for="(subrule, subdomain) in rule" v-if="subdomain[0] !== '_'" :key="subdomain">
-                            <p v-for="subsubrule in subrule" :key="subsubrule.title">
-                                <a target="_blank" :href="subsubrule.docs">{{ subsubrule.title }}</a>
+                    <el-collapse-item v-for='(rule, domain) in rules' :key='domain'
+                                      :title="rule._name + ' - ' + domain">
+                        <div v-for='(subrule, subdomain) in rule' v-if="subdomain[0] !== '_'"
+                             :key='subdomain'>
+                            <p v-for='subsubrule in subrule' :key='subsubrule.title'>
+                                <a :href='subsubrule.docs' target='_blank'>{{ subsubrule.title
+                                    }}</a>
                             </p>
                         </div>
                     </el-collapse-item>
                 </el-collapse>
-                <div class="debug">
-                    <div class="tip">
+                <div class='debug'>
+                    <div class='tip'>
                         <p>此处用于开发中的规则调试，非战斗人员请迅速撤离</p>
                         <p>编辑内容随时可能被自动更新的规则覆盖，请保证本地有备份</p>
                         <p>使用 设置-立即更新 可以立即恢复远程规则</p>
                     </div>
                     <el-input
-                        type="textarea"
-                        :rows="100"
-                        placeholder="请输入内容"
-                        v-model="rulesText"
-                        @change="updateRules">
+                        v-model='rulesText'
+                        :rows='100'
+                        placeholder='请输入内容'
+                        type='textarea'
+                        @change='updateRules'>
                     </el-input>
                 </div>
             </div>
@@ -37,7 +41,7 @@
 
 <script>
 import { getRules, getRulesDate, updateRules } from '../../common/rules';
-import { secondToTime, commandSandbox } from '../../common/utils';
+import { commandSandbox, secondToTime } from '../../common/utils';
 
 export default {
     name: 'List',
@@ -82,15 +86,15 @@ export default {
             updateRules(this.rulesText, () => {
                 this.$message({
                     message: '保存成功',
-                    type: 'success'
+                    type: 'success',
                 });
             });
         },
-    }
-}
+    },
+};
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 a {
     text-decoration: none;
     color: #f5712c;

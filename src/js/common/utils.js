@@ -11,6 +11,7 @@ window.addEventListener('message', (event) => {
         returnResult(event);
     });
 });
+
 export function commandSandbox(command, data, callback) {
     if (data.rules && typeof data.rules === 'object') {
         try {

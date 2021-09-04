@@ -1,4 +1,4 @@
-import { getPageRSSHub, getWebsiteRSSHub, getList } from './utils';
+import { getList, getPageRSSHub, getWebsiteRSSHub } from './utils';
 
 window.getPageRSSHub = getPageRSSHub;
 window.getWebsiteRSSHub = getWebsiteRSSHub;

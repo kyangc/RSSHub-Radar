@@ -1,91 +1,159 @@
 <template>
-    <div class="setting">
-        <div class="title">设置</div>
-        <div class="content" v-loading="loading">
-            <div v-if="!loading">
-                <div class="subtitle">常规</div>
-                <div class="setting-item">
-                    <div class="setting-name">自定义 RSSHub 域名</div>
-                    <div class="setting-input">
-                        <el-input @change="saveConfig" v-model="config.rsshubDomain" placeholder="请输入你的 RSSHub 域名，留空使用官方域名"></el-input>
+    <div class='setting'>
+        <div class='title'>设置</div>
+        <div v-loading='loading' class='content'>
+            <div v-if='!loading'>
+                <div class='subtitle'>常规</div>
+                <div class='setting-item'>
+                    <div class='setting-name'>自定义 RSSHub 域名</div>
+                    <div class='setting-input'>
+                        <el-input v-model='config.rsshubDomain' placeholder='请输入你的 RSSHub 域名，留空使用官方域名'
+                                  @change='saveConfig'></el-input>
                     </div>
-                    <template v-if="config.rsshubDomain !== defaultConfig.rsshubDomain">
-                    <div class="setting-name">访问密钥<a target="_blank" href="https://docs.rsshub.app/install/#fang-wen-kong-zhi-pei-zhi"><el-tooltip class="item" effect="dark" content="只有实例启用了访问密钥，才需要配置，如果你不清楚情况，请保持关闭" placement="top"><i class="el-icon-info"></i></el-tooltip></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.rsshubAccessControl.enabled">开启</el-checkbox>
-                        <el-input @change="saveConfig" style="margin-left: 20px;" v-if="config.rsshubAccessControl.enabled" v-model="config.rsshubAccessControl.accessKey" placeholder="必填，请输入正确的访问密钥"></el-input>
-                        <el-checkbox @change="saveConfig" style="margin-left: 20px;" v-if="config.rsshubAccessControl.enabled" v-model="config.rsshubAccessControl.useCode">生成访问码</el-checkbox>
-                    </div>
+                    <template v-if='config.rsshubDomain !== defaultConfig.rsshubDomain'>
+                        <div class='setting-name'>访问密钥<a href='https://docs.rsshub.app/install/#fang-wen-kong-zhi-pei-zhi'
+                                                         target='_blank'>
+                            <el-tooltip class='item' content='只有实例启用了访问密钥，才需要配置，如果你不清楚情况，请保持关闭'
+                                        effect='dark' placement='top'>
+                                <i class='el-icon-info'></i></el-tooltip>
+                        </a></div>
+                        <div class='setting-input'>
+                            <el-checkbox v-model='config.rsshubAccessControl.enabled'
+                                         @change='saveConfig'>开启
+                            </el-checkbox>
+                            <el-input v-if='config.rsshubAccessControl.enabled' v-model='config.rsshubAccessControl.accessKey'
+                                      placeholder='必填，请输入正确的访问密钥'
+                                      style='margin-left: 20px;'
+                                      @change='saveConfig'></el-input>
+                            <el-checkbox v-if='config.rsshubAccessControl.enabled' v-model='config.rsshubAccessControl.useCode'
+                                         style='margin-left: 20px;'
+                                         @change='saveConfig'>生成访问码
+                            </el-checkbox>
+                        </div>
                     </template>
-                    <div class="setting-name" v-if="isChrome">快捷键</div>
-                    <div class="setting-input" v-if="isChrome">
-                        <el-button size="medium" @click="toHotkey">点此设置</el-button>
+                    <div v-if='isChrome' class='setting-name'>快捷键</div>
+                    <div v-if='isChrome' class='setting-input'>
+                        <el-button size='medium' @click='toHotkey'>点此设置</el-button>
                     </div>
                 </div>
-                <div class="subtitle">规则更新</div>
-                <div class="setting-item">
-                    <div class="setting-name" v-if="config.enableRemoteRules">我会自动更新，你也可以</div>
-                    <div class="setting-input" v-if="config.enableRemoteRules">
-                        <el-button style="width: 98px" size="medium" @click="refreshRu" :disabled="refreshDisabled">{{ refreshDisabled ? '更新中' : '立即更新' }}</el-button><el-progress :text-inside="true" :stroke-width="20" :percentage="percentage"></el-progress><span class="time">{{ time }}前更新，{{ leftTime }}后自动更新</span>
+                <div class='subtitle'>规则更新</div>
+                <div class='setting-item'>
+                    <div v-if='config.enableRemoteRules' class='setting-name'>我会自动更新，你也可以</div>
+                    <div v-if='config.enableRemoteRules' class='setting-input'>
+                        <el-button :disabled='refreshDisabled' size='medium' style='width: 98px'
+                                   @click='refreshRu'>{{ refreshDisabled ? '更新中' : '立即更新'
+                            }}
+                        </el-button>
+                        <el-progress :percentage='percentage' :stroke-width='20'
+                                     :text-inside='true'></el-progress>
+                        <span class='time'>{{ time }}前更新，{{ leftTime }}后自动更新</span>
                     </div>
-                    <div class="setting-name" v-if="!config.enableRemoteRules">远程更新被禁用</div>
+                    <div v-if='!config.enableRemoteRules' class='setting-name'>远程更新被禁用</div>
                 </div>
-                <div class="subtitle">一键订阅</div>
-                <div class="setting-item">
-                    <div class="setting-name">Tiny Tiny RSS <a target="_blank" href="https://ttrss.henry.wang/zh/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.ttrss">开启</el-checkbox>
-                        <el-input @change="saveConfig" style="margin-left: 20px;" v-if="config.submitto.ttrss" v-model="config.submitto.ttrssDomain" placeholder="必填，请输入你的 Tiny Tiny RSS 地址"></el-input>
+                <div class='subtitle'>一键订阅</div>
+                <div class='setting-item'>
+                    <div class='setting-name'>Tiny Tiny RSS <a href='https://ttrss.henry.wang/zh/'
+                                                               target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.ttrss' @change='saveConfig'>开启
+                        </el-checkbox>
+                        <el-input v-if='config.submitto.ttrss' v-model='config.submitto.ttrssDomain'
+                                  placeholder='必填，请输入你的 Tiny Tiny RSS 地址' style='margin-left: 20px;'
+                                  @change='saveConfig'></el-input>
                     </div>
-                    <div class="setting-name">Miniflux <a target="_blank" href="https://miniflux.app"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.miniflux">开启</el-checkbox>
-                        <el-input @change="saveConfig" style="margin-left: 20px;" v-if="config.submitto.miniflux" v-model="config.submitto.minifluxDomain" placeholder="必填，请输入你的 Miniflux 地址"></el-input>
+                    <div class='setting-name'>Miniflux <a href='https://miniflux.app'
+                                                          target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.miniflux' @change='saveConfig'>开启
+                        </el-checkbox>
+                        <el-input v-if='config.submitto.miniflux' v-model='config.submitto.minifluxDomain'
+                                  placeholder='必填，请输入你的 Miniflux 地址'
+                                  style='margin-left: 20px;'
+                                  @change='saveConfig'></el-input>
                     </div>
-                    <div class="setting-name">FreshRSS <a target="_blank" href="https://freshrss.org"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.freshrss">开启</el-checkbox>
-                        <el-input @change="saveConfig" style="margin-left: 20px;" v-if="config.submitto.freshrss" v-model="config.submitto.freshrssDomain" placeholder="必填，请输入你的 FreshRSS 地址"></el-input>
+                    <div class='setting-name'>FreshRSS <a href='https://freshrss.org'
+                                                          target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.freshrss' @change='saveConfig'>开启
+                        </el-checkbox>
+                        <el-input v-if='config.submitto.freshrss' v-model='config.submitto.freshrssDomain'
+                                  placeholder='必填，请输入你的 FreshRSS 地址'
+                                  style='margin-left: 20px;'
+                                  @change='saveConfig'></el-input>
                     </div>
-                    <div class="setting-name">Nextcloud News <a target="_blank" href="https://apps.nextcloud.com/apps/news"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.nextcloudnews">开启</el-checkbox>
-                        <el-input @change="saveConfig" style="margin-left: 20px;" v-if="config.submitto.nextcloudnews" v-model="config.submitto.nextcloudnewsDomain" placeholder="必填，请输入你的 Nextcloud News 地址"></el-input>
+                    <div class='setting-name'>Nextcloud News <a href='https://apps.nextcloud.com/apps/news'
+                                                                target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.nextcloudnews' @change='saveConfig'>
+                            开启
+                        </el-checkbox>
+                        <el-input v-if='config.submitto.nextcloudnews' v-model='config.submitto.nextcloudnewsDomain'
+                                  placeholder='必填，请输入你的 Nextcloud News 地址'
+                                  style='margin-left: 20px;'
+                                  @change='saveConfig'></el-input>
                     </div>
-                    <div class="setting-name">Feedly <a target="_blank" href="https://feedly.com/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.feedly">开启</el-checkbox>
+                    <div class='setting-name'>Feedly <a href='https://feedly.com/'
+                                                        target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.feedly' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">Inoreader <a target="_blank" href="https://www.inoreader.com/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.inoreader">开启</el-checkbox>
+                    <div class='setting-name'>Inoreader <a href='https://www.inoreader.com/'
+                                                           target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.inoreader' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">Feedbin <a target="_blank" href="https://feedbin.com/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.feedbin">开启</el-checkbox>
+                    <div class='setting-name'>Feedbin <a href='https://feedbin.com/'
+                                                         target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.feedbin' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">The Old Reader <a target="_blank" href="https://theoldreader.com/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.theoldreader">开启</el-checkbox>
+                    <div class='setting-name'>The Old Reader <a href='https://theoldreader.com/'
+                                                                target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.theoldreader' @change='saveConfig'>
+                            开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">Feeds.Pub <a target="_blank" href="https://feeds.pub/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.feedspub">开启</el-checkbox>
+                    <div class='setting-name'>Feeds.Pub <a href='https://feeds.pub/'
+                                                           target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.feedspub' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">BazQux Reader <a target="_blank" href="https://bazqux.com/"><i class="el-icon-info"></i></a></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.bazqux">开启</el-checkbox>
+                    <div class='setting-name'>BazQux Reader <a href='https://bazqux.com/'
+                                                               target='_blank'><i
+                        class='el-icon-info'></i></a></div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.bazqux' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
-                    <div class="setting-name">本地阅读器 <el-tooltip class="item" effect="dark" content="需要阅读器支持，如 Reeder 等" placement="top"><i class="el-icon-info"></i></el-tooltip></div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.submitto.local">开启</el-checkbox>
+                    <div class='setting-name'>本地阅读器
+                        <el-tooltip class='item' content='需要阅读器支持，如 Reeder 等' effect='dark'
+                                    placement='top'><i class='el-icon-info'></i></el-tooltip>
+                    </div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.submitto.local' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
                 </div>
-                <div class="subtitle">通知与提醒</div>
-                <div class="setting-item">
-                    <div class="setting-name">角标提醒</div>
-                    <div class="setting-input">
-                        <el-checkbox @change="saveConfig" v-model="config.notice.badge">开启</el-checkbox>
+                <div class='subtitle'>通知与提醒</div>
+                <div class='setting-item'>
+                    <div class='setting-name'>角标提醒</div>
+                    <div class='setting-input'>
+                        <el-checkbox v-model='config.notice.badge' @change='saveConfig'>开启
+                        </el-checkbox>
                     </div>
                 </div>
             </div>
@@ -111,7 +179,7 @@ export default {
         isChrome: navigator.userAgent.indexOf('Chrome') !== -1,
     }),
     computed: {
-        percentage: function () {
+        percentage: function() {
             return (this.second / this.config.refreshTimeout * 100).toFixed(2);
         },
     },
@@ -128,13 +196,13 @@ export default {
             saveConfig(this.config, () => {
                 this.$message({
                     message: '保存成功',
-                    type: 'success'
+                    type: 'success',
                 });
             });
         },
         toHotkey() {
             chrome.tabs.create({
-                url: 'chrome://extensions/shortcuts'
+                url: 'chrome://extensions/shortcuts',
             });
         },
         refreshRu() {
@@ -155,12 +223,12 @@ export default {
                     this.refreshTime();
                 }, 1000);
             });
-        }
-    }
-}
+        },
+    },
+};
 </script>
 
-<style lang="less" scoped>
+<style lang='less' scoped>
 .setting {
     width: 100%;
     max-width: 800px;

@@ -4,6 +4,7 @@ import { getConfig } from '../common/config';
 import settingIcon from '../../svg/setting.svg';
 import aboutIcon from '../../svg/about.svg';
 import MD5 from 'md5.js';
+
 let config;
 
 function generateList(type, list) {

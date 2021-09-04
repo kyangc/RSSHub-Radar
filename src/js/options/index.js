@@ -5,7 +5,7 @@ import App from './App.vue';
 import Setting from './views/Setting.vue';
 import List from './views/List.vue';
 import About from './views/About.vue';
-import { Container, Menu, MenuItem, Aside, Header, Main, Footer, Input, Checkbox, Message, Loading, Collapse, CollapseItem, Button, Progress, Tooltip } from 'element-ui';
+import { Aside, Button, Checkbox, Collapse, CollapseItem, Container, Footer, Header, Input, Loading, Main, Menu, MenuItem, Message, Progress, Tooltip } from 'element-ui';
 
 Vue.use(VueRouter);
 Vue.use(Container);

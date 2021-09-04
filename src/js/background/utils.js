@@ -1,9 +1,11 @@
 import { getRules, getRulesDate, refreshRules } from '../common/rules';
 import { commandSandbox } from '../common/utils';
 import { getConfig } from '../common/config';
+import RSSParser from 'rss-parser';
+
 let config;
 let rules = {};
-import RSSParser from 'rss-parser';
+
 const rssParser = new RSSParser();
 
 window.pageRSS = {};

@@ -33,6 +33,14 @@ module.exports = {
     resolve: {
         modules: ['node_modules'],
         extensions: ['.js', '.less'],
+        fallback: {
+            buffer: require.resolve('buffer'),
+            http: require.resolve('stream-http'),
+            https: require.resolve('https-browserify'),
+            url: require.resolve('url'),
+            timers: require.resolve('timers-browserify'),
+            stream: require.resolve('stream-browserify'),
+        },
     },
 
     module: {
@@ -55,16 +63,16 @@ module.exports = {
                             presets: ['@babel/preset-env'],
                             plugins: [
                                 [
-                                    "component",
+                                    'component',
                                     {
-                                        "libraryName": "element-ui",
-                                        "styleLibraryName": "theme-chalk"
-                                    }
+                                        'libraryName': 'element-ui',
+                                        'styleLibraryName': 'theme-chalk',
+                                    },
                                 ],
                             ],
-                        }
-                    }
-                ]
+                        },
+                    },
+                ],
             },
             {
                 test: /\.css$/,
@@ -80,10 +88,10 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            config: {
-                                path: path.join(__dirname, 'postcss.config.js')
-                            }
-                        }
+                            postcssOptions: {
+                                path: path.join(__dirname, 'postcss.config.js'),
+                            },
+                        },
                     },
                 ],
             },
@@ -101,7 +109,7 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            config: {
+                            postcssOptions: {
                                 path: path.join(__dirname, 'postcss.config.js')
                             }
                         }
@@ -123,28 +131,28 @@ module.exports = {
                     {
                         loader: 'postcss-loader',
                         options: {
-                            config: {
-                                path: path.join(__dirname, 'postcss.config.js')
-                            }
-                        }
+                            postcssOptions: {
+                                path: path.join(__dirname, 'postcss.config.js'),
+                            },
+                        },
                     },
-                    'sass-loader'
+                    'sass-loader',
                 ],
             },
             {
                 test: /\.vue$/,
-                loader: 'vue-loader'
+                loader: 'vue-loader',
             },
             {
                 test: /\.(png|jpg)$/,
                 loader: 'url-loader',
                 options: {
-                    'limit': 40000
-                }
+                    'limit': 40000,
+                },
             },
             {
                 test: /\.svg$/,
-                loader: 'svg-inline-loader'
+                loader: 'svg-inline-loader',
             },
             {
                 test: /\.(ttf|woff)$/,
@@ -153,12 +161,12 @@ module.exports = {
                     name: '[name].[ext]',
                 },
             },
-        ]
+        ],
     },
 
     plugins: [
         new MiniCssExtractPlugin({
-            filename: '[name].css'
+            filename: '[name].css',
         }),
         new CopyPlugin({
             patterns: [
@@ -170,15 +178,15 @@ module.exports = {
         }),
         new VueLoaderPlugin(),
         new webpack.DefinePlugin({
-            VERSION: JSON.stringify(require('./src/assets/manifest.json').version)
+            VERSION: JSON.stringify(require('./src/assets/manifest.json').version),
         }),
     ],
 
-    node: {
-        dgram: 'empty',
-        fs: 'empty',
-        net: 'empty',
-        tls: 'empty',
-    },
+    // node: {
+    //     dgram: 'empty',
+    //     fs: 'empty',
+    //     net: 'empty',
+    //     tls: 'empty',
+    // },
 
 };

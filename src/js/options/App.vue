@@ -22,8 +22,8 @@
                         <i class='el-icon-coordinate'></i>
                         <span slot='title'>关于</span>
                     </el-menu-item>
-                    <el-footer class='footer'>版本 v{{ version }}<br>Made with <i
-                        style='color:#d43f57'>♥</i> by <a href='https://diygod.me' target='_blank'>DIYgod</a>
+                    <el-footer class='footer'>版本 v{{ version }}<br>
+                        <a>Modified by KYANGC</a>
                     </el-footer>
                 </el-menu>
             </el-aside>

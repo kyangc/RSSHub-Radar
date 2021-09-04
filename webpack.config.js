@@ -1,6 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+// const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
@@ -40,6 +40,10 @@ module.exports = {
             url: require.resolve('url'),
             timers: require.resolve('timers-browserify'),
             stream: require.resolve('stream-browserify'),
+            dgram: false,
+            fs: false,
+            net: false,
+            tls: false,
         },
     },
 
@@ -78,7 +82,7 @@ module.exports = {
                 test: /\.css$/,
                 use: [
                     'vue-style-loader',
-                    MiniCssExtractPlugin.loader,
+                    // MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -99,7 +103,7 @@ module.exports = {
                 test: /\.less$/,
                 use: [
                     'vue-style-loader',
-                    MiniCssExtractPlugin.loader,
+                    // MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -110,18 +114,18 @@ module.exports = {
                         loader: 'postcss-loader',
                         options: {
                             postcssOptions: {
-                                path: path.join(__dirname, 'postcss.config.js')
-                            }
-                        }
+                                path: path.join(__dirname, 'postcss.config.js'),
+                            },
+                        },
                     },
-                    'less-loader'
+                    'less-loader',
                 ],
             },
             {
                 test: /\.scss$/,
                 use: [
                     'vue-style-loader',
-                    MiniCssExtractPlugin.loader,
+                    // MiniCssExtractPlugin.loader,
                     {
                         loader: 'css-loader',
                         options: {
@@ -165,9 +169,9 @@ module.exports = {
     },
 
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: '[name].css',
-        }),
+        // new MiniCssExtractPlugin({
+        //     filename: '[name].css',
+        // }),
         new CopyPlugin({
             patterns: [
                 {
@@ -181,12 +185,5 @@ module.exports = {
             VERSION: JSON.stringify(require('./src/assets/manifest.json').version),
         }),
     ],
-
-    // node: {
-    //     dgram: 'empty',
-    //     fs: 'empty',
-    //     net: 'empty',
-    //     tls: 'empty',
-    // },
 
 };

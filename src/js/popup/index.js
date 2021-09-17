@@ -10,7 +10,7 @@ let config;
 function generateList(type, list) {
     let result = '';
     if (list && list.length) {
-        list.forEach((item) => {
+        list.filter((it) => it.url).forEach((item) => {
             const replaced_url = item.url.replace('{rsshubDomain}', config.rsshubDomain);
             const url = encodeURI(
                 type !== 'page-rsshub' || !config.rsshubAccessControl.enabled

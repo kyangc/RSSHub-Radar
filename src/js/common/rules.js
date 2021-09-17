@@ -12,7 +12,7 @@ export function refreshRules(success) {
                 success && success();
             });
         };
-        fetch('https://raw.githubusercontent.com/DIYgod/RSSHub/master/assets/radar-rules.js')
+        fetch('https://raw.githubusercontent.com/kyangc/RSSHub/master/assets/radar-rules.js')
             .then((response) => {
                 done(response);
             })
